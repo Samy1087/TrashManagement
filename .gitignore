@@ -1,0 +1,12 @@
+# Ignore le dossier de compilation
+/build/
+
+# Ignore le dossier de configuration de NetBeans
+/nbproject/
+
+# Ignore les fichiers .class générés
+*.class
+
+# Ignore les fichiers temporaires ou log
+*.log
+*.tmp

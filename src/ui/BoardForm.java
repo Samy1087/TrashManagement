@@ -118,6 +118,7 @@ public class BoardForm extends javax.swing.JFrame {
 
         collect_tf.setFont(new java.awt.Font("Tahoma", 0, 25)); // NOI18N
         collect_tf.setForeground(new java.awt.Color(255, 255, 255));
+        collect_tf.setIcon(new javax.swing.ImageIcon("C:\\Users\\sm\\Documents\\NetBeansProjects\\TrashManagement\\src\\ui\\photos\\arrow-right-line.png")); // NOI18N
         collect_tf.setText("Collecte");
         collect_tf.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -130,6 +131,7 @@ public class BoardForm extends javax.swing.JFrame {
 
         recyclage_tf.setFont(new java.awt.Font("Tahoma", 0, 25)); // NOI18N
         recyclage_tf.setForeground(new java.awt.Color(255, 255, 255));
+        recyclage_tf.setIcon(new javax.swing.ImageIcon("C:\\Users\\sm\\Documents\\NetBeansProjects\\TrashManagement\\src\\ui\\photos\\arrow-right-line.png")); // NOI18N
         recyclage_tf.setText("Recyclage");
         recyclage_tf.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -139,6 +141,7 @@ public class BoardForm extends javax.swing.JFrame {
 
         itineraire_tf.setFont(new java.awt.Font("Tahoma", 0, 25)); // NOI18N
         itineraire_tf.setForeground(new java.awt.Color(255, 255, 255));
+        itineraire_tf.setIcon(new javax.swing.ImageIcon("C:\\Users\\sm\\Documents\\NetBeansProjects\\TrashManagement\\src\\ui\\photos\\arrow-right-line.png")); // NOI18N
         itineraire_tf.setText("Itineraire");
         itineraire_tf.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -148,6 +151,7 @@ public class BoardForm extends javax.swing.JFrame {
 
         employes_tf.setFont(new java.awt.Font("Tahoma", 0, 25)); // NOI18N
         employes_tf.setForeground(new java.awt.Color(255, 255, 255));
+        employes_tf.setIcon(new javax.swing.ImageIcon("C:\\Users\\sm\\Documents\\NetBeansProjects\\TrashManagement\\src\\ui\\photos\\arrow-right-line.png")); // NOI18N
         employes_tf.setText("Employes");
         employes_tf.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -161,12 +165,12 @@ public class BoardForm extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(46, 46, 46)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(employes_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(recyclage_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(collect_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(itineraire_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(67, Short.MAX_VALUE))
+                    .addComponent(itineraire_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(employes_tf, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(recyclage_tf, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

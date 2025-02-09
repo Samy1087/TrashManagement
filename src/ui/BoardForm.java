@@ -1,4 +1,4 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
@@ -60,7 +60,7 @@ public class BoardForm extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(240, 240, 240)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(219, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -70,7 +70,7 @@ public class BoardForm extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 30)); // NOI18N
         jLabel6.setText("Bienvenue sur votre tableau de bord !");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -79,20 +79,20 @@ public class BoardForm extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(25, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel6)
-                .addGap(21, 21, 21))
+                .addGap(53, 53, 53))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(172, 172, 172)
+                .addGap(183, 183, 183)
                 .addComponent(jLabel6)
-                .addContainerGap(221, Short.MAX_VALUE))
+                .addContainerGap(205, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(219, 0, 650, 522));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(239, 0, 630, 510));
 
         jPanel4.setBackground(new java.awt.Color(0, 102, 51));
 
@@ -140,26 +140,26 @@ public class BoardForm extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
+                .addGap(46, 46, 46)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(employes_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(recyclage_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(collect_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(itineraire_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(76, Short.MAX_VALUE))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(54, 54, 54)
+                .addGap(53, 53, 53)
                 .addComponent(collect_tf)
-                .addGap(83, 83, 83)
+                .addGap(76, 76, 76)
                 .addComponent(recyclage_tf)
-                .addGap(88, 88, 88)
+                .addGap(80, 80, 80)
                 .addComponent(itineraire_tf)
-                .addGap(85, 85, 85)
+                .addGap(73, 73, 73)
                 .addComponent(employes_tf)
-                .addContainerGap(373, Short.MAX_VALUE))
+                .addContainerGap(101, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -172,15 +172,30 @@ public class BoardForm extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 300, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void employes_tfMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_employes_tfMouseClicked
+        this.hide();
+        new EmployeForm().setVisible(true);
+    }//GEN-LAST:event_employes_tfMouseClicked
+
+    private void itineraire_tfMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itineraire_tfMouseClicked
+        this.hide();
+        new ItineraireForm().setVisible(true);
+    }//GEN-LAST:event_itineraire_tfMouseClicked
+
+    private void recyclage_tfMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_recyclage_tfMouseClicked
+        this.hide();
+        new RecyclageForm().setVisible(true);
+    }//GEN-LAST:event_recyclage_tfMouseClicked
 
     private void collect_tfMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_collect_tfMouseEntered
 
@@ -190,21 +205,6 @@ public class BoardForm extends javax.swing.JFrame {
         this.hide();
         new CollectForm().setVisible(true);
     }//GEN-LAST:event_collect_tfMouseClicked
-
-    private void recyclage_tfMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_recyclage_tfMouseClicked
-        this.hide();
-        new RecyclageForm().setVisible(true);
-    }//GEN-LAST:event_recyclage_tfMouseClicked
-
-    private void itineraire_tfMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itineraire_tfMouseClicked
-        this.hide();
-        new ItineraireForm().setVisible(true);
-    }//GEN-LAST:event_itineraire_tfMouseClicked
-
-    private void employes_tfMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_employes_tfMouseClicked
-        this.hide();
-        new EmployeForm().setVisible(true);
-    }//GEN-LAST:event_employes_tfMouseClicked
 
     /**
      * @param args the command line arguments

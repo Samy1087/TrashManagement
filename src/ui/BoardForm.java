@@ -35,7 +35,6 @@ public class BoardForm extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        collect_tf = new javax.swing.JLabel();
         recyclage_tf = new javax.swing.JLabel();
         empliste_tf = new javax.swing.JLabel();
         emprole_tf = new javax.swing.JLabel();
@@ -116,19 +115,6 @@ public class BoardForm extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(0, 102, 51));
 
-        collect_tf.setFont(new java.awt.Font("Tahoma", 0, 25)); // NOI18N
-        collect_tf.setForeground(new java.awt.Color(255, 255, 255));
-        collect_tf.setIcon(new javax.swing.ImageIcon("C:\\Users\\sm\\Documents\\NetBeansProjects\\TrashManagement\\src\\ui\\photos\\arrow-right-line.png")); // NOI18N
-        collect_tf.setText("Collecte");
-        collect_tf.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                collect_tfMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                collect_tfMouseEntered(evt);
-            }
-        });
-
         recyclage_tf.setFont(new java.awt.Font("Tahoma", 0, 25)); // NOI18N
         recyclage_tf.setForeground(new java.awt.Color(255, 255, 255));
         recyclage_tf.setIcon(new javax.swing.ImageIcon("C:\\Users\\sm\\Documents\\NetBeansProjects\\TrashManagement\\src\\ui\\photos\\arrow-right-line.png")); // NOI18N
@@ -165,9 +151,6 @@ public class BoardForm extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(collect_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(empliste_tf, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(emprole_tf)
                     .addComponent(recyclage_tf, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -176,13 +159,11 @@ public class BoardForm extends javax.swing.JFrame {
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addComponent(collect_tf)
-                .addGap(85, 85, 85)
+                .addGap(136, 136, 136)
                 .addComponent(recyclage_tf)
-                .addGap(68, 68, 68)
+                .addGap(86, 86, 86)
                 .addComponent(empliste_tf)
-                .addGap(68, 68, 68)
+                .addGap(83, 83, 83)
                 .addComponent(emprole_tf)
                 .addContainerGap(109, Short.MAX_VALUE))
         );
@@ -222,15 +203,6 @@ public class BoardForm extends javax.swing.JFrame {
         new TrashForm().setVisible(true);
     }//GEN-LAST:event_recyclage_tfMouseClicked
 
-    private void collect_tfMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_collect_tfMouseEntered
-
-    }//GEN-LAST:event_collect_tfMouseEntered
-
-    private void collect_tfMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_collect_tfMouseClicked
-        this.hide();
-        new CollectForm().setVisible(true);
-    }//GEN-LAST:event_collect_tfMouseClicked
-
     /**
      * @param args the command line arguments
      */
@@ -267,7 +239,6 @@ public class BoardForm extends javax.swing.JFrame {
     }  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel collect_tf;
     private javax.swing.JLabel empliste_tf;
     private javax.swing.JLabel emprole_tf;
     private javax.swing.JLabel icon_tf;

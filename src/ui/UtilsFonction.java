@@ -102,4 +102,8 @@ public class UtilsFonction {
         }
         return result.toString();
     }
+
+    static void displayDataInTable(DefaultTableModel model, JTable tableau, List<String> of) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

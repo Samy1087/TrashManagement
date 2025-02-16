@@ -118,12 +118,12 @@ public class EmployeForm extends javax.swing.JFrame {
                 System.out.println("ID de l'utilisateur : " + utilisateurId); // Débogage
 
                 // Vérifier si l'utilisateur a déjà un rôle
-                String checkRoleQuery = "SELECT roleid FROM employe WHERE utilisateurid = ?";
+                String checkRoleQuery = "SELECT roleemid FROM employe WHERE utilisateurid = ?";
                 db.iniPreparedCmd(checkRoleQuery);
                 db.getPstmt().setInt(1, utilisateurId);
                 ResultSet rsRoleCheck = db.executePreparedSelect();
 
-                if (rsRoleCheck.next() && rsRoleCheck.getInt("roleid") != 0) {
+                if (rsRoleCheck.next() && rsRoleCheck.getInt("roleemid") != 0) {
                     // Si un rôle est déjà assigné à l'utilisateur, afficher un message
                     JOptionPane.showMessageDialog(this, "Cet utilisateur a déjà un rôle attribué.");
                     return;
@@ -140,7 +140,7 @@ public class EmployeForm extends javax.swing.JFrame {
                     System.out.println("ID du rôle : " + roleId); // Débogage
 
                     // Insérer un nouvel enregistrement dans la table employe
-                    String insertQuery = "INSERT INTO employe (utilisateurid, role, roleid) VALUES (?, ?, ?)";
+                    String insertQuery = "INSERT INTO employe (utilisateurid, role, roleemid) VALUES (?, ?, ?)";
                     db.iniPreparedCmd(insertQuery);
                     db.getPstmt().setInt(1, utilisateurId);
                     db.getPstmt().setString(2, selectedRole);
@@ -285,6 +285,9 @@ public class EmployeForm extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(EmployeForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

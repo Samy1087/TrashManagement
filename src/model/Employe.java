@@ -12,13 +12,13 @@ public class Employe {
     private int id;
     private int utilisateurid;
     private String role;
-    private int roleid;
+    private int roleemid;
 
-    public Employe(int id, int utilisateurid, String role, int roleid) {
+    public Employe(int id, int utilisateurid, String role, int roleemid) {
         this.id = id;
         this.utilisateurid = utilisateurid;
         this.role = role;
-        this.roleid = roleid;
+        this.roleemid = roleemid;
     }
 
     public Employe() {
@@ -48,12 +48,12 @@ public class Employe {
         this.role = role;
     }
 
-    public int getRoleid() {
-        return roleid;
+    public int getRoleemid() {
+        return roleemid;
     }
 
-    public void setRoleid(int roleid) {
-        this.roleid = roleid;
+    public void setRoleemid(int roleemid) {
+        this.roleemid = roleemid;
     }
 
    

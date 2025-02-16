@@ -158,6 +158,10 @@ public final class Db {
         return sb.toString().trim();
     }
 
+    public Object getConnection() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     
 
 }

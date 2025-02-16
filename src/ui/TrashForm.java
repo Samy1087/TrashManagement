@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -30,10 +31,12 @@ public class TrashForm extends javax.swing.JFrame {
             loadEmploye(); // Charger les employés
             loadZone(); // Charger les zones
             LoadTraitement();
+            // Après l'insertion des données dans la base
         } catch (Exception ex) {
             Logger.getLogger(TrashForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
 
     // Méthode pour charger les types dans typeid_cbx
     private void loadType() {
@@ -129,8 +132,6 @@ public class TrashForm extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         enregistrer_btn = new javax.swing.JButton();
         typeid_cbx = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tableau = new javax.swing.JTable();
         zone_cbx = new javax.swing.JComboBox<>();
         employeid_cbx = new javax.swing.JComboBox<>();
         traitement_cbx = new javax.swing.JComboBox<>();
@@ -163,19 +164,6 @@ public class TrashForm extends javax.swing.JFrame {
             }
         });
 
-        tableau.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(tableau);
-
         employeid_cbx.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 employeid_cbxActionPerformed(evt);
@@ -194,54 +182,44 @@ public class TrashForm extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(127, 127, 127)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(47, 47, 47))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(64, 64, 64)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(date_tf)
+                                .addComponent(zone_cbx, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(traitement_cbx, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(typeid, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(66, 66, 66)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(quantite_tf)
+                                .addComponent(typeid_cbx, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(employeid_cbx, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(64, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGap(47, 47, 47))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(64, 64, 64)))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(date_tf)
-                                        .addComponent(zone_cbx, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(traitement_cbx, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(typeid, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(66, 66, 66)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(quantite_tf)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(typeid_cbx, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(0, 0, Short.MAX_VALUE))
-                                        .addComponent(employeid_cbx, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(60, 60, 60)
-                                .addComponent(enregistrer_btn)))
-                        .addGap(31, 31, 31))
+                        .addGap(60, 60, 60)
+                        .addComponent(enregistrer_btn))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(142, 142, 142)
+                        .addGap(136, 136, 136)
                         .addComponent(home_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(118, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(84, 84, 84)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -269,7 +247,7 @@ public class TrashForm extends javax.swing.JFrame {
                     .addComponent(traitement_cbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(enregistrer_btn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                 .addComponent(home_tf)
                 .addGap(44, 44, 44))
         );
@@ -282,6 +260,7 @@ public class TrashForm extends javax.swing.JFrame {
     }//GEN-LAST:event_typeid_cbxActionPerformed
 
     private void enregistrer_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enregistrer_btnActionPerformed
+        // Récupération des valeurs des composants
         String typeid = (String) typeid_cbx.getSelectedItem();
         String employeid = (String) employeid_cbx.getSelectedItem();
         String zoneid = (String) zone_cbx.getSelectedItem();
@@ -289,9 +268,58 @@ public class TrashForm extends javax.swing.JFrame {
         String traitement = (String) traitement_cbx.getSelectedItem();
         String datecollecte = date_tf.getText();
 
-        // Ajouter ici votre logique pour enregistrer dans la base de données
-        // Exemple d'insert SQL :
-        String sqlInsert = "INSERT INTO employe (typeid, employeid, zoneid, quantite, traitement, datecollecte) VALUES (?, ?, ?, ?, ?, ?)";
+        // Validation des champs
+        if (typeid == null || employeid == null || zoneid == null || quantite.isEmpty() || traitement == null || datecollecte.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Tous les champs doivent être remplis.");
+            return; // Retourner si des champs sont vides
+        }
+
+        // Créer la requête SQL pour insérer les données dans la base de données
+        String sqlInsert = "INSERT INTO dechet (typeid, employeid, zoneid, quantite, traitement, datecollecte) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try {
+            // Obtenir l'instance de Db pour préparer et exécuter la requête
+            Db dbInstance = Db.getInstance();
+
+            // Initialisation de la requête préparée
+            dbInstance.iniPreparedCmd(sqlInsert);
+
+            // Associer les paramètres à la requête
+            dbInstance.getPstmt().setString(1, typeid);        // typeid
+            dbInstance.getPstmt().setString(2, employeid);     // employeid
+            dbInstance.getPstmt().setString(3, zoneid);        // zoneid
+            dbInstance.getPstmt().setString(4, quantite);      // quantite
+            dbInstance.getPstmt().setString(5, traitement);    // traitement
+            dbInstance.getPstmt().setString(6, datecollecte);  // datecollecte
+
+            // Exécuter la requête
+            int result = dbInstance.executePreparedCUD();
+
+            if (result > 0) {
+                // Afficher un message de succès
+                javax.swing.JOptionPane.showMessageDialog(this, "Enregistrement effectué avec succès!");
+                // Actualiser le tableau pour afficher les nouvelles données
+
+                // Optionnel: Actualiser ou vider les champs après l'enregistrement
+                typeid_cbx.setSelectedIndex(0);
+                employeid_cbx.setSelectedIndex(0);
+                zone_cbx.setSelectedIndex(0);
+                quantite_tf.setText("");
+                traitement_cbx.setSelectedIndex(0);
+                date_tf.setText("");
+            } else {
+                // Message d'erreur si aucune ligne n'est insérée
+                javax.swing.JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement.");
+            }
+
+            // Fermer la connexion après l'exécution
+            dbInstance.FermerConnexion();
+
+        } catch (Exception ex) {
+            // Afficher les erreurs
+            ex.printStackTrace();
+            javax.swing.JOptionPane.showMessageDialog(this, "Erreur: " + ex.getMessage());
+        }
     }//GEN-LAST:event_enregistrer_btnActionPerformed
 
     private void employeid_cbxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeid_cbxActionPerformed
@@ -348,9 +376,7 @@ public class TrashForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField quantite_tf;
-    private javax.swing.JTable tableau;
     private javax.swing.JComboBox<String> traitement_cbx;
     private javax.swing.JLabel typeid;
     private javax.swing.JComboBox<String> typeid_cbx;

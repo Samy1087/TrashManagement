@@ -40,7 +40,7 @@ public class ListeEmployeForm extends javax.swing.JFrame {
             String query = "SELECT e.utilisateurid, u.nom, u.prenom, r.libelle "
                     + "FROM employe e "
                     + "JOIN utilisateur u ON e.utilisateurid = u.id "
-                    + "JOIN roleem r ON e.roleid = r.id";
+                    + "JOIN roleem r ON e.roleemid = r.id";
             Db db = null;
             try {
                 db = new Db(); // Créer une instance de Db pour la connexion à la base de données

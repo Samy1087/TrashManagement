@@ -158,7 +158,6 @@ public class SignInForm extends javax.swing.JFrame {
                 us.setEmail(rs.getString("email"));
                 us.setPassword(rs.getString("password"));
                 us.setRole_id(rs.getInt("role_id"));
-                us.setStatut(rs.getBoolean("statut"));
 
                 // Affichage du mot de passe stocké en base
                 System.out.println("Mot de passe de la base de données: " + us.getPassword());
@@ -176,7 +175,7 @@ public class SignInForm extends javax.swing.JFrame {
                     }
 
                     // Redirection en fonction du rôle
-                    if (roleUser != null && roleUser.getRole().equalsIgnoreCase("Admin")) {
+                    if (roleUser != null && roleUser.getRole().equalsIgnoreCase("admin")) {
                         new BoardForm().setVisible(true);  // Formulaire Admin
                     } else {
                         new TaskForm().setVisible(true);  // Formulaire Utilisateur

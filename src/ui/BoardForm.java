@@ -37,8 +37,8 @@ public class BoardForm extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         collect_tf = new javax.swing.JLabel();
         recyclage_tf = new javax.swing.JLabel();
-        itineraire_tf = new javax.swing.JLabel();
-        employes_tf = new javax.swing.JLabel();
+        empliste_tf = new javax.swing.JLabel();
+        emprole_tf = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -132,30 +132,30 @@ public class BoardForm extends javax.swing.JFrame {
         recyclage_tf.setFont(new java.awt.Font("Tahoma", 0, 25)); // NOI18N
         recyclage_tf.setForeground(new java.awt.Color(255, 255, 255));
         recyclage_tf.setIcon(new javax.swing.ImageIcon("C:\\Users\\sm\\Documents\\NetBeansProjects\\TrashManagement\\src\\ui\\photos\\arrow-right-line.png")); // NOI18N
-        recyclage_tf.setText("Recyclage");
+        recyclage_tf.setText("Gestion dechets");
         recyclage_tf.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 recyclage_tfMouseClicked(evt);
             }
         });
 
-        itineraire_tf.setFont(new java.awt.Font("Tahoma", 0, 25)); // NOI18N
-        itineraire_tf.setForeground(new java.awt.Color(255, 255, 255));
-        itineraire_tf.setIcon(new javax.swing.ImageIcon("C:\\Users\\sm\\Documents\\NetBeansProjects\\TrashManagement\\src\\ui\\photos\\arrow-right-line.png")); // NOI18N
-        itineraire_tf.setText("Itineraire");
-        itineraire_tf.addMouseListener(new java.awt.event.MouseAdapter() {
+        empliste_tf.setFont(new java.awt.Font("Tahoma", 0, 25)); // NOI18N
+        empliste_tf.setForeground(new java.awt.Color(255, 255, 255));
+        empliste_tf.setIcon(new javax.swing.ImageIcon("C:\\Users\\sm\\Documents\\NetBeansProjects\\TrashManagement\\src\\ui\\photos\\arrow-right-line.png")); // NOI18N
+        empliste_tf.setText("Liste des employes");
+        empliste_tf.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                itineraire_tfMouseClicked(evt);
+                empliste_tfMouseClicked(evt);
             }
         });
 
-        employes_tf.setFont(new java.awt.Font("Tahoma", 0, 25)); // NOI18N
-        employes_tf.setForeground(new java.awt.Color(255, 255, 255));
-        employes_tf.setIcon(new javax.swing.ImageIcon("C:\\Users\\sm\\Documents\\NetBeansProjects\\TrashManagement\\src\\ui\\photos\\arrow-right-line.png")); // NOI18N
-        employes_tf.setText("Employes");
-        employes_tf.addMouseListener(new java.awt.event.MouseAdapter() {
+        emprole_tf.setFont(new java.awt.Font("Tahoma", 0, 25)); // NOI18N
+        emprole_tf.setForeground(new java.awt.Color(255, 255, 255));
+        emprole_tf.setIcon(new javax.swing.ImageIcon("C:\\Users\\sm\\Documents\\NetBeansProjects\\TrashManagement\\src\\ui\\photos\\arrow-right-line.png")); // NOI18N
+        emprole_tf.setText("Assigner des roles");
+        emprole_tf.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                employes_tfMouseClicked(evt);
+                emprole_tfMouseClicked(evt);
             }
         });
 
@@ -164,26 +164,27 @@ public class BoardForm extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(46, 46, 46)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(collect_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(itineraire_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(employes_tf, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(recyclage_tf, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
-                .addContainerGap(37, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(collect_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(empliste_tf, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(emprole_tf)
+                    .addComponent(recyclage_tf, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(53, 53, 53)
                 .addComponent(collect_tf)
-                .addGap(76, 76, 76)
+                .addGap(85, 85, 85)
                 .addComponent(recyclage_tf)
-                .addGap(80, 80, 80)
-                .addComponent(itineraire_tf)
-                .addGap(73, 73, 73)
-                .addComponent(employes_tf)
-                .addContainerGap(101, Short.MAX_VALUE))
+                .addGap(68, 68, 68)
+                .addComponent(empliste_tf)
+                .addGap(68, 68, 68)
+                .addComponent(emprole_tf)
+                .addContainerGap(109, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -206,19 +207,19 @@ public class BoardForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void employes_tfMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_employes_tfMouseClicked
+    private void emprole_tfMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emprole_tfMouseClicked
         this.hide();
         new EmployeForm().setVisible(true);
-    }//GEN-LAST:event_employes_tfMouseClicked
+    }//GEN-LAST:event_emprole_tfMouseClicked
 
-    private void itineraire_tfMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itineraire_tfMouseClicked
+    private void empliste_tfMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_empliste_tfMouseClicked
         this.hide();
-        new ItineraireForm().setVisible(true);
-    }//GEN-LAST:event_itineraire_tfMouseClicked
+        new ListeEmployeForm().setVisible(true);
+    }//GEN-LAST:event_empliste_tfMouseClicked
 
     private void recyclage_tfMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_recyclage_tfMouseClicked
         this.hide();
-        new RecyclageForm().setVisible(true);
+        new TrashForm().setVisible(true);
     }//GEN-LAST:event_recyclage_tfMouseClicked
 
     private void collect_tfMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_collect_tfMouseEntered
@@ -267,9 +268,9 @@ public class BoardForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel collect_tf;
-    private javax.swing.JLabel employes_tf;
+    private javax.swing.JLabel empliste_tf;
+    private javax.swing.JLabel emprole_tf;
     private javax.swing.JLabel icon_tf;
-    private javax.swing.JLabel itineraire_tf;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -39,11 +39,26 @@ public class RegisterForm extends javax.swing.JFrame {
 
     private void loadRole() {
         try {
+            // Vérifier si un admin existe déjà dans la base de données
+            String sqlCheckAdmin = "SELECT COUNT(*) FROM utilisateur u JOIN role r ON u.role_id = r.id WHERE r.role = 'admin'";
+            ResultSet rsAdmin = db.executeSelect(sqlCheckAdmin);
+            rsAdmin.next();
+            boolean adminExists = rsAdmin.getInt(1) > 0;
+
+            // Charger tous les rôles
             String sql = "SELECT * FROM role";
             ResultSet rs = db.executeSelect(sql);
             while (rs.next()) {
-                ListRole.add(new Role(rs.getInt("id"), rs.getString("role")));
+                Role role = new Role(rs.getInt("id"), rs.getString("role"));
+
+                // Si un admin existe, ne pas ajouter l'option "admin" dans le combobox
+                if (adminExists && role.getRole().equals("admin")) {
+                    continue; // On saute l'admin
+                }
+                ListRole.add(role);
             }
+
+            // Ajouter les rôles restants dans le combobox
             for (Role item : ListRole) {
                 role_cbx.addItem(item.getRole());
             }
@@ -51,7 +66,6 @@ public class RegisterForm extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     private void clearField() {
@@ -201,11 +215,11 @@ public class RegisterForm extends javax.swing.JFrame {
     }//GEN-LAST:event_role_cbxActionPerformed
 
     private void inscrire_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inscrire_btnActionPerformed
-        
+
     }//GEN-LAST:event_inscrire_btnActionPerformed
 
     private void connecter_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connecter_btnActionPerformed
-        
+
     }//GEN-LAST:event_connecter_btnActionPerformed
 
     private void email_tfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_email_tfActionPerformed
@@ -218,38 +232,51 @@ public class RegisterForm extends javax.swing.JFrame {
 
     private void sinscrire_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sinscrire_btnActionPerformed
         try {
-            // Vérification des champs avant l'insertion
-            if (!testField()) {
-                return; // Si la validation échoue, on arrête l'insertion
-            }
-
-            String nom = nom_tf.getText();
-            String prenom = prenom_tf.getText();
-            String email = email_tf.getText();
-            String password = password_tf.getText();
-            //String confirmpassword = confirmpassword_tf.getText();
-
-            int positionRole = role_cbx.getSelectedIndex();
-
-            int role_id = ListRole.get(positionRole).getId();
-            String sql = "INSERT INTO utilisateur(nom, prenom, email, password, role_id) VALUES (?, ?, ?, ?, ?)";
-
-            db.iniPreparedCmd(sql);
-            db.getPstmt().setString(1, nom);
-            db.getPstmt().setString(2, prenom);
-            db.getPstmt().setString(3, email);
-            db.getPstmt().setString(4, password);
-            db.getPstmt().setInt(5, role_id);
-            int row = db.executePreparedCUD();
-            if (row > 0) {
-                JOptionPane.showMessageDialog(this, "Insertion reussie");
-            } else {
-                JOptionPane.showMessageDialog(this, "Insertion echouee");
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(RegisterForm.class
-                    .getName()).log(Level.SEVERE, null, ex);
+        // Vérification des champs avant l'insertion
+        if (!testField()) {
+            return; // Si la validation échoue, on arrête l'insertion
         }
+
+        String nom = nom_tf.getText();
+        String prenom = prenom_tf.getText();
+        String email = email_tf.getText();
+        String password = new String(password_tf.getPassword());
+
+        // Vérifier si l'email existe déjà dans la base de données
+        String sqlCheckEmail = "SELECT COUNT(*) FROM utilisateur WHERE email = ?";
+        db.iniPreparedCmd(sqlCheckEmail);
+        db.getPstmt().setString(1, email);
+        ResultSet rsEmail = db.executePreparedSelect();
+        rsEmail.next();
+        
+        // Si l'email existe déjà, afficher un message d'erreur
+        if (rsEmail.getInt(1) > 0) {
+            JOptionPane.showMessageDialog(this, "Cet email est déjà utilisé. Veuillez en choisir un autre.");
+            return; // Si l'email est déjà pris, on arrête l'insertion
+        }
+
+        // Si l'email est unique, procéder à l'insertion de l'utilisateur
+        int positionRole = role_cbx.getSelectedIndex();
+        int role_id = ListRole.get(positionRole).getId();
+
+        String sql = "INSERT INTO utilisateur(nom, prenom, email, password, role_id) VALUES (?, ?, ?, ?, ?)";
+        db.iniPreparedCmd(sql);
+        db.getPstmt().setString(1, nom);
+        db.getPstmt().setString(2, prenom);
+        db.getPstmt().setString(3, email);
+        db.getPstmt().setString(4, password);
+        db.getPstmt().setInt(5, role_id);
+        
+        int row = db.executePreparedCUD();
+        if (row > 0) {
+            JOptionPane.showMessageDialog(this, "Insertion réussie");
+            clearField(); // Optionnel, pour vider les champs après une inscription réussie
+        } else {
+            JOptionPane.showMessageDialog(this, "Insertion échouée");
+        }
+    } catch (Exception ex) {
+        Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }//GEN-LAST:event_sinscrire_btnActionPerformed
 
     private void seconnecter_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seconnecter_btnActionPerformed

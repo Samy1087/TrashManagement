@@ -8,16 +8,16 @@ package model;
  *
  * @author sm
  */
-public class Zone {
+public class Itineraire {
     private  int id;
-    private String nomzone;
+    private String libelle;
 
-    public Zone(int id, String nomzone) {
+    public Itineraire(int id, String libelle) {
         this.id = id;
-        this.nomzone = nomzone;
+        this.libelle = libelle;
     }
 
-    public Zone() {
+    public Itineraire() {
     }
 
     public int getId() {
@@ -28,12 +28,12 @@ public class Zone {
         this.id = id;
     }
 
-    public String getNomzone() {
-        return nomzone;
+    public String getLibelle() {
+        return libelle;
     }
 
-    public void setNomzone(String nomzone) {
-        this.nomzone = nomzone;
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
     }
     
     

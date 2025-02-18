@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -28,15 +28,13 @@ public class TrashForm extends javax.swing.JFrame {
             initComponents();
             db = new Db();
             loadType(); // Charger les types
-            loadEmploye(); // Charger les employés
-            loadZone(); // Charger les zones
             LoadTraitement();
             // Après l'insertion des données dans la base
+            updateListeEmployes(); // Charger les déchets existants dans la JList
         } catch (Exception ex) {
             Logger.getLogger(TrashForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 
     // Méthode pour charger les types dans typeid_cbx
     private void loadType() {
@@ -56,49 +54,9 @@ public class TrashForm extends javax.swing.JFrame {
         }
     }
 
-    // Méthode pour charger les employés dans employeid_cbx
-    private void loadEmploye() {
-        try {
-            String sql = "SELECT nom, prenom FROM utilisateur"; // Utiliser la table 'utilisateur' et sélectionner 'nom' et 'prenom'
-            ResultSet rs = db.executeSelect(sql);  // Utiliser l'instance 'db' pour appeler 'executeSelect'
-
-            if (rs != null) {  // Vérifiez que rs n'est pas null avant de l'utiliser
-                while (rs.next()) {
-                    // Concaténer 'nom' et 'prenom' pour afficher dans la ComboBox
-                    String nomComplet = rs.getString("nom") + " " + rs.getString("prenom");
-                    employeid_cbx.addItem(nomComplet); // Ajouter le nom complet à la ComboBox
-                }
-            } else {
-                System.out.println("Aucun résultat trouvé pour les utilisateurs.");
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();  // Affiche les erreurs SQL
-        } catch (Exception ex) {
-            ex.printStackTrace();  // Affiche d'autres erreurs générales
-        }
-    }
-
-    // Méthode pour charger les zones dans zone_cbx
-    private void loadZone() {
-        try {
-            String sql = "SELECT * FROM zone"; // Modifier avec votre table des zones
-            ResultSet rs = null;
-            try {
-                rs = db.executeSelect(sql); // Utiliser l'instance 'db' pour appeler 'executeSelect'
-            } catch (Exception ex) {
-                Logger.getLogger(TrashForm.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            while (rs.next()) {
-                zone_cbx.addItem(rs.getString("nomzone")); // Modifier avec votre colonne de noms de zones
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-
     private void LoadTraitement() {
         try {
-            String sql = "SELECT * FROM traitement"; // Modifier avec votre table des zones
+            String sql = "SELECT * FROM traitement"; // Modifier avec votre table des traitement
             ResultSet rs = null;
             try {
                 rs = db.executeSelect(sql); // Utiliser l'instance 'db' pour appeler 'executeSelect'
@@ -113,6 +71,40 @@ public class TrashForm extends javax.swing.JFrame {
         }
     }
 
+    // Méthode pour mettre à jour la liste des employés dans la JList
+    private void updateListeEmployes() {
+        DefaultListModel<String> model = new DefaultListModel<>(); // Crée un modèle pour la JList
+        try {
+            // Requête SQL avec jointure entre utilisateur et employe
+            String sql = "SELECT u.prenom, u.nom "
+                    + "FROM utilisateur u "
+                    + "JOIN employe e ON u.id = e.utilisateurid "
+                    + // Jointure entre les deux tables
+                    "WHERE e.roleemid = 1"; 
+
+            ResultSet rs = null;
+            try {
+                rs = db.executeSelect(sql); // Exécution de la requête SQL
+            } catch (Exception ex) {
+                Logger.getLogger(TrashForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            // Boucle pour récupérer les données et ajouter à la JList
+            while (rs.next()) {
+                String nomEmploye = rs.getString("nom"); // Récupérer le nom de l'employé
+                String prenomEmploye = rs.getString("prenom"); // Récupérer le prénom de l'employé
+                model.addElement("Employé: " + nomEmploye + " " + prenomEmploye); // Ajouter à la JList
+            }
+
+            // Mettre à jour la JList avec le modèle
+            liste.setModel(model);
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            javax.swing.JOptionPane.showMessageDialog(this, "Erreur lors du chargement des employés.");
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -123,33 +115,20 @@ public class TrashForm extends javax.swing.JFrame {
     private void initComponents() {
 
         typeid = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        quantite_tf = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        date_tf = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
         enregistrer_btn = new javax.swing.JButton();
         typeid_cbx = new javax.swing.JComboBox<>();
-        zone_cbx = new javax.swing.JComboBox<>();
-        employeid_cbx = new javax.swing.JComboBox<>();
         traitement_cbx = new javax.swing.JComboBox<>();
         home_tf = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        liste = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         typeid.setText("typeid");
 
-        jLabel2.setText("employeid");
-
-        jLabel3.setText("quantite");
-
         jLabel4.setText("traitement");
-
-        jLabel5.setText("zoneid");
-
-        jLabel6.setText("datecollecte");
 
         enregistrer_btn.setText("Enregistrer");
         enregistrer_btn.addActionListener(new java.awt.event.ActionListener() {
@@ -164,12 +143,6 @@ public class TrashForm extends javax.swing.JFrame {
             }
         });
 
-        employeid_cbx.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                employeid_cbxActionPerformed(evt);
-            }
-        });
-
         home_tf.setText("Home");
         home_tf.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -177,46 +150,39 @@ public class TrashForm extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Liste des employe charge de s'occuper des dechets apres la collecte");
+
+        jScrollPane1.setViewportView(liste);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 78, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35))
             .addGroup(layout.createSequentialGroup()
-                .addGap(127, 127, 127)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(47, 47, 47))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(64, 64, 64)))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(date_tf)
-                                .addComponent(zone_cbx, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(traitement_cbx, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(typeid, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(66, 66, 66)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(quantite_tf)
-                                .addComponent(typeid_cbx, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(employeid_cbx, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
+                        .addGap(127, 127, 127)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(typeid, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(64, 64, 64)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(traitement_cbx, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(typeid_cbx, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(204, 204, 204)
                         .addComponent(enregistrer_btn))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(136, 136, 136)
-                        .addComponent(home_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(118, Short.MAX_VALUE))
+                        .addGap(232, 232, 232)
+                        .addComponent(home_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(130, 130, 130)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -225,31 +191,19 @@ public class TrashForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(typeid)
                     .addComponent(typeid_cbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2)
-                    .addComponent(employeid_cbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(quantite_tf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(date_tf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(zone_cbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(53, 53, 53)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(traitement_cbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(62, 62, 62)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addComponent(enregistrer_btn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addGap(26, 26, 26)
                 .addComponent(home_tf)
-                .addGap(44, 44, 44))
+                .addGap(21, 21, 21))
         );
 
         pack();
@@ -260,71 +214,49 @@ public class TrashForm extends javax.swing.JFrame {
     }//GEN-LAST:event_typeid_cbxActionPerformed
 
     private void enregistrer_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enregistrer_btnActionPerformed
-        // Récupération des valeurs des composants
+        // Code pour enregistrer les données
         String typeid = (String) typeid_cbx.getSelectedItem();
-        String employeid = (String) employeid_cbx.getSelectedItem();
-        String zoneid = (String) zone_cbx.getSelectedItem();
-        String quantite = quantite_tf.getText();
         String traitement = (String) traitement_cbx.getSelectedItem();
-        String datecollecte = date_tf.getText();
 
         // Validation des champs
-        if (typeid == null || employeid == null || zoneid == null || quantite.isEmpty() || traitement == null || datecollecte.isEmpty()) {
+        if (typeid == null || traitement == null) {
             javax.swing.JOptionPane.showMessageDialog(this, "Tous les champs doivent être remplis.");
             return; // Retourner si des champs sont vides
         }
 
-        // Créer la requête SQL pour insérer les données dans la base de données
-        String sqlInsert = "INSERT INTO dechet (typeid, employeid, zoneid, quantite, traitement, datecollecte) VALUES (?, ?, ?, ?, ?, ?)";
-
+        String sqlCheck = "SELECT COUNT(*) FROM dechet WHERE typeid = ? AND traitement = ?";
         try {
-            // Obtenir l'instance de Db pour préparer et exécuter la requête
             Db dbInstance = Db.getInstance();
+            dbInstance.iniPreparedCmd(sqlCheck);
+            dbInstance.getPstmt().setString(1, typeid);
+            dbInstance.getPstmt().setString(2, traitement);
 
-            // Initialisation de la requête préparée
-            dbInstance.iniPreparedCmd(sqlInsert);
-
-            // Associer les paramètres à la requête
-            dbInstance.getPstmt().setString(1, typeid);        // typeid
-            dbInstance.getPstmt().setString(2, employeid);     // employeid
-            dbInstance.getPstmt().setString(3, zoneid);        // zoneid
-            dbInstance.getPstmt().setString(4, quantite);      // quantite
-            dbInstance.getPstmt().setString(5, traitement);    // traitement
-            dbInstance.getPstmt().setString(6, datecollecte);  // datecollecte
-
-            // Exécuter la requête
-            int result = dbInstance.executePreparedCUD();
-
-            if (result > 0) {
-                // Afficher un message de succès
-                javax.swing.JOptionPane.showMessageDialog(this, "Enregistrement effectué avec succès!");
-                // Actualiser le tableau pour afficher les nouvelles données
-
-                // Optionnel: Actualiser ou vider les champs après l'enregistrement
-                typeid_cbx.setSelectedIndex(0);
-                employeid_cbx.setSelectedIndex(0);
-                zone_cbx.setSelectedIndex(0);
-                quantite_tf.setText("");
-                traitement_cbx.setSelectedIndex(0);
-                date_tf.setText("");
-            } else {
-                // Message d'erreur si aucune ligne n'est insérée
-                javax.swing.JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement.");
+            ResultSet rs = dbInstance.executePreparedSelect();
+            if (rs.next() && rs.getInt(1) > 0) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Le traitement de ce type de déchet a déjà été attribué.");
+                return;
             }
 
-            // Fermer la connexion après l'exécution
-            dbInstance.FermerConnexion();
+            String sqlInsert = "INSERT INTO dechet (typeid, traitement) VALUES (?, ?)";
+            dbInstance.iniPreparedCmd(sqlInsert);
+            dbInstance.getPstmt().setString(1, typeid);
+            dbInstance.getPstmt().setString(2, traitement);
 
+            int result = dbInstance.executePreparedCUD();
+            if (result > 0) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Enregistrement effectué avec succès!");
+                updateListeEmployes(); // Mettre à jour la liste des employés
+                typeid_cbx.setSelectedIndex(0);
+                traitement_cbx.setSelectedIndex(0);
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement.");
+            }
+            dbInstance.FermerConnexion();
         } catch (Exception ex) {
-            // Afficher les erreurs
             ex.printStackTrace();
             javax.swing.JOptionPane.showMessageDialog(this, "Erreur: " + ex.getMessage());
         }
     }//GEN-LAST:event_enregistrer_btnActionPerformed
-
-    private void employeid_cbxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeid_cbxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_employeid_cbxActionPerformed
 
     private void home_tfMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home_tfMouseClicked
         this.hide();
@@ -344,16 +276,24 @@ public class TrashForm extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TrashForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TrashForm.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TrashForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TrashForm.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TrashForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TrashForm.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TrashForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TrashForm.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -367,19 +307,14 @@ public class TrashForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField date_tf;
-    private javax.swing.JComboBox<String> employeid_cbx;
     private javax.swing.JButton enregistrer_btn;
     private javax.swing.JLabel home_tf;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JTextField quantite_tf;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JList<String> liste;
     private javax.swing.JComboBox<String> traitement_cbx;
     private javax.swing.JLabel typeid;
     private javax.swing.JComboBox<String> typeid_cbx;
-    private javax.swing.JComboBox<String> zone_cbx;
     // End of variables declaration//GEN-END:variables
 }

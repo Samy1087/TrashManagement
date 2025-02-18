@@ -11,19 +11,11 @@ package model;
 public class Dechet {
     private int id;
     private int typeid;
-    private int employeid;
-    private int quantite;
-    private String datecollecte;
-    private int zoneid;
     private String traitement;
 
-    public Dechet(int id, int typeid, int employeid, int quantite, String datecollecte, int zoneid, String traitement) {
+    public Dechet(int id, int typeid, String traitement) {
         this.id = id;
         this.typeid = typeid;
-        this.employeid = employeid;
-        this.quantite = quantite;
-        this.datecollecte = datecollecte;
-        this.zoneid = zoneid;
         this.traitement = traitement;
     }
 
@@ -44,38 +36,6 @@ public class Dechet {
 
     public void setTypeid(int typeid) {
         this.typeid = typeid;
-    }
-
-    public int getEmployeid() {
-        return employeid;
-    }
-
-    public void setEmployeid(int employeid) {
-        this.employeid = employeid;
-    }
-
-    public int getQuantite() {
-        return quantite;
-    }
-
-    public void setQuantite(int quantite) {
-        this.quantite = quantite;
-    }
-
-    public String getDatecollecte() {
-        return datecollecte;
-    }
-
-    public void setDatecollecte(String datecollecte) {
-        this.datecollecte = datecollecte;
-    }
-
-    public int getZoneid() {
-        return zoneid;
-    }
-
-    public void setZoneid(int zoneid) {
-        this.zoneid = zoneid;
     }
 
     public String getTraitement() {

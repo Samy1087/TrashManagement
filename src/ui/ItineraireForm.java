@@ -180,6 +180,7 @@ public class ItineraireForm extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         itineraire_cbx = new javax.swing.JComboBox<>();
         valider_btn = new javax.swing.JButton();
+        home_tf = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -191,6 +192,13 @@ public class ItineraireForm extends javax.swing.JFrame {
         valider_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 valider_btnActionPerformed(evt);
+            }
+        });
+
+        home_tf.setText("Home");
+        home_tf.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                home_tfMouseClicked(evt);
             }
         });
 
@@ -217,6 +225,10 @@ public class ItineraireForm extends javax.swing.JFrame {
                         .addGap(135, 135, 135)
                         .addComponent(valider_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(251, 251, 251)
+                .addComponent(home_tf, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,7 +243,9 @@ public class ItineraireForm extends javax.swing.JFrame {
                     .addComponent(itineraire_cbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                 .addComponent(valider_btn)
-                .addGap(66, 66, 66))
+                .addGap(27, 27, 27)
+                .addComponent(home_tf)
+                .addGap(23, 23, 23))
         );
 
         pack();
@@ -240,6 +254,11 @@ public class ItineraireForm extends javax.swing.JFrame {
     private void valider_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valider_btnActionPerformed
         affecterItineraire();
     }//GEN-LAST:event_valider_btnActionPerformed
+
+    private void home_tfMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home_tfMouseClicked
+         this.hide();
+        new BoardForm().setVisible(true);
+    }//GEN-LAST:event_home_tfMouseClicked
 
     /**
      * @param args the command line arguments
@@ -278,6 +297,7 @@ public class ItineraireForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> employe_cbx;
+    private javax.swing.JLabel home_tf;
     private javax.swing.JComboBox<String> itineraire_cbx;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

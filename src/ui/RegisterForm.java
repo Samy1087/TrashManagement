@@ -40,7 +40,7 @@ public class RegisterForm extends javax.swing.JFrame {
     private void loadRole() {
         try {
             // Vérifier si un admin existe déjà dans la base de données
-            String sqlCheckAdmin = "SELECT COUNT(*) FROM utilisateur u JOIN role r ON u.role_id = r.id WHERE r.role = 'admin'";
+            String sqlCheckAdmin = "SELECT COUNT(*) FROM utilisateur u JOIN role r ON u.roleid = r.id WHERE r.role = 'admin'";
             ResultSet rsAdmin = db.executeSelect(sqlCheckAdmin);
             rsAdmin.next();
             boolean adminExists = rsAdmin.getInt(1) > 0;

@@ -80,14 +80,13 @@ public class ItineraireForm extends javax.swing.JFrame {
         String selectedEmploye = (String) employe_cbx.getSelectedItem();
         String selectedItineraire = (String) itineraire_cbx.getSelectedItem();
 
-        // Validation des champs
         if ("Sélectionner un utilisateur".equals(selectedEmploye)) {
-            JOptionPane.showMessageDialog(this, "Veuillez sélectionner un employé.");
+            JOptionPane.showMessageDialog(this, "Veuillez sélectionner un employe.");
             return;
         }
 
-        if ("Sélectionner un itinéraire".equals(selectedItineraire)) {
-            JOptionPane.showMessageDialog(this, "Veuillez sélectionner un itinéraire.");
+        if ("Sélectionner un itineraire".equals(selectedItineraire)) {
+            JOptionPane.showMessageDialog(this, "Veuillez sélectionner un itineraire.");
             return;
         }
 
@@ -106,65 +105,62 @@ public class ItineraireForm extends javax.swing.JFrame {
 
             if (rsUtilisateur.next()) {
                 int utilisateurId = rsUtilisateur.getInt("id");
+                System.out.println("ID de l'utilisateur : " + utilisateurId); // Débogage
 
-                // Récupérer l'ID de l'itinéraire à partir du libellé
-                String queryItineraire = "SELECT id FROM itineraire WHERE libelle = ?";
+                // Vérifier si l'utilisateur a déjà un itinéraire affecté
+                String checkItineraireQuery = "SELECT COUNT(*) FROM itineraireemploye WHERE employeid = ?";
+                db.iniPreparedCmd(checkItineraireQuery);
+                db.getPstmt().setInt(1, utilisateurId);
+                ResultSet rsItineraireCheck = db.executePreparedSelect();
+
+                if (rsItineraireCheck.next() && rsItineraireCheck.getInt(1) > 0) {
+                    // Si l'utilisateur a déjà un itinéraire, afficher un message
+                    JOptionPane.showMessageDialog(this, "Cet utilisateur a déjà un itinéraire attribué.");
+                    return;
+                }
+
+                // Vérifier si l'itinéraire a déjà 24 employés affectés
+                String checkItineraireCountQuery = "SELECT COUNT(*) FROM itineraireemploye WHERE itineraireid = ?";
+                db.iniPreparedCmd(checkItineraireCountQuery);
+                db.getPstmt().setString(1, selectedItineraire);
+                ResultSet rsItineraireCount = db.executePreparedSelect();
+
+                if (rsItineraireCount.next() && rsItineraireCount.getInt(1) >= 24) {
+                    // Si l'itinéraire a déjà 24 employés, afficher un message
+                    JOptionPane.showMessageDialog(this, "Cet itinéraire a déjà 24 employés affectés.");
+                    return;
+                }
+
+                // Récupérer le libellé de l'itinéraire à partir du nom
+                String queryItineraire = "SELECT libelle FROM itineraire WHERE libelle = ?";
                 db.iniPreparedCmd(queryItineraire);
                 db.getPstmt().setString(1, selectedItineraire);
                 ResultSet rsItineraire = db.executePreparedSelect();
 
                 if (rsItineraire.next()) {
-                    int itineraireId = rsItineraire.getInt("id");
+                    String itineraireLibelle = rsItineraire.getString("libelle");
+                    System.out.println("Libellé de l'itinéraire : " + itineraireLibelle); // Débogage
 
-                    // Vérifier combien d'employés sont déjà affectés à cet itinéraire
-                    String countQuery = "SELECT COUNT(*) FROM itineraireemploye WHERE itineraireid = ?";
-                    db.iniPreparedCmd(countQuery);
-                    db.getPstmt().setInt(1, itineraireId);
-                    ResultSet rsCount = db.executePreparedSelect();
-
-                    if (rsCount.next() && rsCount.getInt(1) >= 24) {
-                        // Si le nombre d'employés affectés à cet itinéraire est déjà 24 ou plus
-                        JOptionPane.showMessageDialog(this, "Cet itinéraire a déjà 24 employés affectés. Vous ne pouvez pas en ajouter d'autres.");
-                        return;
-                    }
-
-                    // Vérifier si l'employé est déjà affecté à cet itinéraire
-                    String checkIfAssigned = "SELECT COUNT(*) FROM itineraireemploye WHERE employeid = ? AND itineraireid = ?";
-                    db.iniPreparedCmd(checkIfAssigned);
-                    db.getPstmt().setInt(1, utilisateurId);
-                    db.getPstmt().setInt(2, itineraireId);
-                    ResultSet rsCheck = db.executePreparedSelect();
-
-                    if (rsCheck.next() && rsCheck.getInt(1) > 0) {
-                        // Si l'employé est déjà affecté à cet itinéraire
-                        JOptionPane.showMessageDialog(this, "Cet employé est déjà affecté à cet itinéraire.");
-                        return;
-                    }
-
-                    // Insertion dans la table itineraireemploye
+                    // Insérer un nouvel enregistrement dans la table itineraireemploye
                     String insertQuery = "INSERT INTO itineraireemploye (employeid, itineraireid) VALUES (?, ?)";
                     db.iniPreparedCmd(insertQuery);
-                    db.getPstmt().setInt(1, utilisateurId);
-                    db.getPstmt().setInt(2, itineraireId);
+                    db.getPstmt().setInt(1, utilisateurId);  // ID de l'employé
+                    db.getPstmt().setString(2, itineraireLibelle);  // Libellé de l'itinéraire
                     int rowsInserted = db.executePreparedCUD();
 
                     if (rowsInserted > 0) {
-                        JOptionPane.showMessageDialog(this, "L'itinéraire " + selectedItineraire + " a été affecté à l'employé " + nom + " " + prenom);
-                        employe_cbx.setSelectedIndex(0);  // Réinitialiser les sélections
-                        itineraire_cbx.setSelectedIndex(0);
+                        // Affichage du nom et prénom de l'employé dans le message
+                        JOptionPane.showMessageDialog(this, "L'itinéraire " + itineraireLibelle + " a été affecté à l'employé " + nom + " " + prenom);
                     } else {
                         JOptionPane.showMessageDialog(this, "Erreur lors de l'affectation de l'itinéraire.");
                     }
                 } else {
-                    // L'itinéraire n'est pas trouvé dans la base
-                    JOptionPane.showMessageDialog(this, "L'itinéraire n'a pas été trouvé.");
+                    JOptionPane.showMessageDialog(this, "Itinéraire non trouvé.");
                 }
             } else {
-                // L'employé n'est pas trouvé dans la base
-                JOptionPane.showMessageDialog(this, "L'employé n'a pas été trouvé.");
+                JOptionPane.showMessageDialog(this, "Employé non trouvé.");
             }
         } catch (Exception e) {
-            // Gestion d'exception générique
             JOptionPane.showMessageDialog(this, "Erreur : " + e.getMessage());
             e.printStackTrace();
         }
